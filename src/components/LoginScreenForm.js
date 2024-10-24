@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import styles from '../styles/LoginScreenStyles'; // Adjust the import path if necessary
+import styles from '../styles/LoginScreenStyles';
 
 const LoginScreenForm = ({ navigation }) => {
   return (
@@ -20,7 +20,7 @@ const LoginScreenForm = ({ navigation }) => {
 
       <TouchableOpacity 
         style={styles.signupButton} 
-        onPress={() => navigation.navigate('Signup')}
+        onPress={() => navigation.navigate('SignupScreen')}
       >
         <Text style={styles.buttonText}>Criar conta</Text>
       </TouchableOpacity>

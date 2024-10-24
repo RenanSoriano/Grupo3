@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import LoginScreenForm from '../components/LoginScreenForm'; // Adjust the import path if necessary
+import LoginScreenForm from '../components/LoginScreenForm';
 
 const LoginScreen = () => {
   const navigation = useNavigation();

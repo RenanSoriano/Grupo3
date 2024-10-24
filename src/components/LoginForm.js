@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import FormInput from '../components/FormInput'; // Adjust the import path if necessary
-import styles from '../styles/LoginPageStyles'; // Adjust the import path if necessary
+import FormInput from './FormInput';
+import styles from '../styles/LoginPageStyles';
 
 const LoginForm = ({ emailCpf, setEmailCpf, password, setPassword, handleLogin, navigation }) => {
   return (

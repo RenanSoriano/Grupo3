@@ -1,17 +1,16 @@
-// src/styles/FormInputStyles.js
 import { StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   inputContainer: {
-    width: '100%', // Usa toda a largura disponível
-    paddingHorizontal: 20, // Adiciona padding nas laterais
+    width: '100%',
+    paddingHorizontal: 20,
     marginBottom: 15,
   },
   
   input: {
-    width: '100%', // Garante que o input use toda a largura do container
+    width: '100%',
     height: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderWidth: 1,

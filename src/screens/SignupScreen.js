@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import SignupForm from '../components/SignupForm'; // Adjust the import path if necessary
+import SignupForm from '../components/SignupForm';
 
 const SignupScreen = () => {
   const navigation = useNavigation();
 
   const handleRegister = () => {
-    navigation.navigate('LoginPage'); // Corrigir para 'LoginPage'
+    navigation.navigate('TaskScreen');
   };
 
   return <SignupForm handleRegister={handleRegister} />;
