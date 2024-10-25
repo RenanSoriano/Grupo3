@@ -1,64 +1,66 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const { width } = Dimensions.get('window');
-
-export default StyleSheet.create({
-  inputContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 15,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
   },
-  
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  task: {
+    fontSize: 18,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    marginBottom: 10,
+  },
+  overdueTask: {
+    backgroundColor: '#ffcccc',
+  },
+  todayTask: {
+    backgroundColor: '#ccffcc',
+  },
+  upcomingTask: {
+    backgroundColor: '#cce5ff',
+  },
   input: {
-    width: '100%',
     height: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderColor: '#ccc',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
     borderRadius: 10,
     paddingHorizontal: 15,
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    marginBottom: 20,
   },
-
-  inputFocused: {
-    borderColor: '#4B9EFF',
-    borderWidth: 2,
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+  addButton: {
+    backgroundColor: '#4B9EFF',
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
-
-  errorInput: {
-    borderColor: '#FF4444',
-    borderWidth: 1,
+  addButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
-
-  label: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
-    marginLeft: 2,
+  datePickerText: {
+    color: '#4B9EFF',
+    textAlign: 'center',
+    marginBottom: 20,
   },
-
-  errorText: {
-    color: '#FF4444',
-    fontSize: 12,
-    marginTop: 5,
-    marginLeft: 2,
-  },
-
-  icon: {
-    position: 'absolute',
-    right: 15,
-    top: 15,
-  }
 });
+
+export default styles;

@@ -12,6 +12,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  toggleButton: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#4B9EFF',
+  },
   task: {
     fontSize: 18,
     padding: 10,
