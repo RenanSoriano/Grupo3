@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import taskStyles from '../styles/TaskScreenStyles'; // Import the task screen stylesheet
 import formStyles from '../styles/FormInputStyles'; // Import the form input stylesheet
 
@@ -12,6 +13,10 @@ const TaskScreen = () => {
   const [showOverdueTasks, setShowOverdueTasks] = useState(true);
   const [showTodayTasks, setShowTodayTasks] = useState(true);
   const [showUpcomingTasks, setShowUpcomingTasks] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editingTask, setEditingTask] = useState(null);
+  const [editingText, setEditingText] = useState('');
+  const [editingDate, setEditingDate] = useState(new Date());
 
   const handleAddTask = () => {
     if (taskText.trim()) {
@@ -22,9 +27,32 @@ const TaskScreen = () => {
   };
 
   const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || taskDate;
+    const currentDate = selectedDate || (editingTask ? editingDate : taskDate);
     setShowDatePicker(false);
-    setTaskDate(currentDate);
+    if (editingTask) {
+      setEditingDate(currentDate);
+    } else {
+      setTaskDate(currentDate);
+    }
+  };
+
+  const handleRemoveTask = (taskToRemove) => {
+    setTasks(tasks.filter(task => task !== taskToRemove));
+  };
+
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setEditingText(task.text);
+    setEditingDate(new Date(task.date));
+  };
+
+  const handleSaveEdit = () => {
+    setTasks(tasks.map(task => 
+      task === editingTask ? { ...task, text: editingText, date: editingDate } : task
+    ));
+    setEditingTask(null);
+    setEditingText('');
+    setEditingDate(new Date());
   };
 
   const today = new Date();
@@ -32,15 +60,30 @@ const TaskScreen = () => {
   const todayTasks = tasks.filter(task => new Date(task.date).toDateString() === today.toDateString());
   const upcomingTasks = tasks.filter(task => new Date(task.date) > today.setHours(23, 59, 59, 999));
 
+  const filteredTasks = tasks.filter(task => 
+    task.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const renderTask = ({ item }) => (
     <View style={[
       taskStyles.task,
+      { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
       new Date(item.date) < today.setHours(0, 0, 0, 0) ? taskStyles.overdueTask :
       new Date(item.date).toDateString() === today.toDateString() ? taskStyles.todayTask :
       taskStyles.upcomingTask
     ]}>
-      <Text>{item.text}</Text>
-      <Text>{new Date(item.date).toLocaleDateString()}</Text>
+      <View>
+        <Text>{item.text}</Text>
+        <Text>{new Date(item.date).toLocaleDateString()}</Text>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity onPress={() => handleEditTask(item)}>
+          <Icon name="edit" size={24} color="blue" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleRemoveTask(item)}>
+          <Icon name="delete" size={24} color="red" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -48,6 +91,13 @@ const TaskScreen = () => {
     <View style={taskStyles.container}>
       <Text style={taskStyles.title}>Tarefas</Text>
       
+      <TextInput
+        style={formStyles.input}
+        placeholder="Pesquisar tarefa"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       <View style={taskStyles.sectionHeader}>
         <Text style={taskStyles.sectionTitle}>Atrasadas</Text>
         <TouchableOpacity onPress={() => setShowOverdueTasks(!showOverdueTasks)}>
@@ -56,7 +106,7 @@ const TaskScreen = () => {
       </View>
       {showOverdueTasks && (
         <FlatList
-          data={overdueTasks}
+          data={filteredTasks.filter(task => overdueTasks.includes(task))}
           renderItem={renderTask}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -70,7 +120,7 @@ const TaskScreen = () => {
       </View>
       {showTodayTasks && (
         <FlatList
-          data={todayTasks}
+          data={filteredTasks.filter(task => todayTasks.includes(task))}
           renderItem={renderTask}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -84,7 +134,7 @@ const TaskScreen = () => {
       </View>
       {showUpcomingTasks && (
         <FlatList
-          data={upcomingTasks}
+          data={filteredTasks.filter(task => upcomingTasks.includes(task))}
           renderItem={renderTask}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -93,22 +143,25 @@ const TaskScreen = () => {
       <TextInput
         style={formStyles.input}
         placeholder="Nova tarefa"
-        value={taskText}
-        onChangeText={setTaskText}
+        value={editingTask ? editingText : taskText}
+        onChangeText={editingTask ? setEditingText : setTaskText}
       />
       <TouchableOpacity onPress={() => setShowDatePicker(true)}>
         <Text style={taskStyles.datePickerText}>Selecionar Data</Text>
       </TouchableOpacity>
       {showDatePicker && (
         <DateTimePicker
-          value={taskDate}
+          value={editingTask ? editingDate : taskDate}
           mode="date"
           display="default"
           onChange={handleDateChange}
         />
       )}
-      <TouchableOpacity style={taskStyles.addButton} onPress={handleAddTask}>
-        <Text style={taskStyles.addButtonText}>+</Text>
+      <TouchableOpacity
+        style={taskStyles.addButton}
+        onPress={editingTask ? handleSaveEdit : handleAddTask}
+      >
+        <Text style={taskStyles.addButtonText}>{editingTask ? 'Salvar' : '+'}</Text>
       </TouchableOpacity>
     </View>
   );
