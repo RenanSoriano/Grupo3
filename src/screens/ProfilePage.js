@@ -1,30 +1,70 @@
-import react from 'react';
-import ProfileScreenStyles from '../components/ProfileScreenStyles';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import styles from '../styles/ProfileScreenStyles';
+import api from '../api'; // Cliente Axios configurado
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const [userData, setUserData] = useState({
-    profilePicture: "", // Vazio para simular um usuário sem foto
-    name: "Nome da Pessoa",
-    email: "email@exemplo.com",
-    cpf: "000.000.000-00",
-    birthDate: "01/01/2000",
-    password: "********",
+    profilePicture: "",
+    name: "",
+    email: "",
+    cpf: "",
+    birthDate: "",
+    password: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Buscar dados do usuário ao carregar a tela
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/user'); // Substituir '/user' pela rota correta do back-end
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+        Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Salvar dados no back-end
+  const handleSaveClick = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await api.put('/user', userData); // Substituir '/user' pela rota correta do back-end
+      setUserData(response.data);
+      Alert.alert("Sucesso", "Dados atualizados com sucesso!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Erro ao salvar dados do usuário:", error);
+      Alert.alert("Erro", "Não foi possível salvar os dados. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
-    setIsEditing(false);
+  const handleBackClick = () => {
+    navigation.goBack();
   };
 
-  const handleBackClick = () => {
-    console.log("Voltar para a tela anterior");
-  };
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
