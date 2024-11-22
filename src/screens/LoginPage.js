@@ -7,6 +7,7 @@ import api from '../../api'; // Importe a instância da API
 const LoginPage = ({ navigation }) => {
   const [emailOrCpf, setEmailOrCpf] = React.useState('');
   const [password, setPassword] = React.useState('');
+}
 
   const handleLogin = async (event) => {
     event.preventDefault();

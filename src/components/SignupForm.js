@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from '../styles/SignupScreenStyles';
-import axios from 'axios';
 import api from '../../api'; // Importe a instância da API
 
 const SignupForm = () => {
