@@ -48,5 +48,18 @@ const styles = {
     alignItems: 'center',
     margin: 16,
   },
+  deleteButton: {
+    backgroundColor: "#ff4d4d", // Vermelho para representar exclusão
+    padding: 12,
+    borderRadius: 8,
+    margin: 16,
+    alignItems: "center",
+  },
+  
+  deleteButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 };
 export default styles;

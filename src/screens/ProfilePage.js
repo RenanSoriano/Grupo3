@@ -4,11 +4,11 @@ import styles from '../styles/ProfileScreenStyles';
 
 export default function ProfileScreen({ navigation }) {
   const [userData, setUserData] = useState({
-    name: "Nome da Pessoa",
-    email: "email@exemplo.com",
-    cpf: "000.000.000-00",
-    birthDate: "01/01/2000",
-    password: "********",
+    name: "Lucas Huss",
+    email: "lucashuss37@gmail",
+    cpf: "534.221.158-11",
+    birthDate: "31/05/2006",
+    password: "123456789",
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -86,6 +86,9 @@ export default function ProfileScreen({ navigation }) {
 
       <TouchableOpacity onPress={isEditing ? handleSaveClick : handleEditClick} style={styles.editButton}>
         <Text style={styles.buttonText}>{isEditing ? "Salvar" : "Editar"}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.deleteButton}>
+        <Text style={styles.deleteButtonText}>Excluir Conta</Text>
       </TouchableOpacity>
     </View>
   );
