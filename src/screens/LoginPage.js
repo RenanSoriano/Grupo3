@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
 import styles from '../styles/LoginPageStyles';
 
@@ -7,9 +8,24 @@ const LoginPage = ({ navigation }) => {
   const [emailCpf, setEmailCpf] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const handleLogin = () => {
-    // Login logic here
-    navigation.navigate('TaskScreen');
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://192.168.15.16:4001/api/login', {
+        emailCpf,
+        password
+      });
+
+      console.log('Response:', response.data); // Adicione este log para ver a resposta do backend
+
+      if (response.data.success) {
+        navigation.navigate('TaskScreen');
+      } else {
+        Alert.alert('Erro de Login', 'Credenciais inválidas');
+      }
+    } catch (error) {
+      console.error('Erro:', error); // Adicione este log para ver o erro
+      Alert.alert('Erro de Login', 'Ocorreu um erro ao tentar fazer login');
+    }
   };
 
   return (

@@ -15,13 +15,13 @@ const SignupForm = () => {
     email: '',
     cpf: '',
     birthDate: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
+    
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { name, email, cpf, birthDate, password, confirmPassword } = formData;
+    const { name, email, cpf, birthDate, password} = formData;
     const dataToSend = { name, email, cpf, password };
     try {
       const response = await api.post('/signup', dataToSend);
@@ -129,14 +129,7 @@ const SignupForm = () => {
             placeholderTextColor="#718096"
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Confirmar Senha"
-            value={formData.confirmPassword}
-            onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
-            secureTextEntry
-            placeholderTextColor="#718096"
-          />
+          
 
           <TouchableOpacity 
             style={styles.registerButton}
