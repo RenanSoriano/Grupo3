@@ -1,32 +1,35 @@
-import axios from 'axios';
 import React from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
 import styles from '../styles/LoginPageStyles';
+import api from '../../api'; // Importe a instância da API
 
 const LoginPage = ({ navigation }) => {
-  const [emailCpf, setEmailCpf] = React.useState('');
+  const [emailOrCpf, setEmailOrCpf] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const Data = {emailOrCpf, password};
     try {
-      const response = await axios.post('http://192.168.15.16:4001/api/login', {
-        emailCpf,
-        password
-      });
+      const response = await api.post('/signin', Data);
 
-      console.log('Response:', response.data); // Adicione este log para ver a resposta do backend
-
-      if (response.data.success) {
+      if (response.status === 200) {
+        // Sucesso no envio dos dados
+        console.log('Dados enviados com sucesso:', response.data);
+        // Navegar para outra tela ou mostrar uma mensagem de sucesso
         navigation.navigate('TaskScreen');
       } else {
-        Alert.alert('Erro de Login', 'Credenciais inválidas');
+        // Tratar erro de resposta
+        console.error('Erro ao enviar dados:', response.status, response.data);
       }
     } catch (error) {
-      console.error('Erro:', error); // Adicione este log para ver o erro
-      Alert.alert('Erro de Login', 'Ocorreu um erro ao tentar fazer login');
+      // Tratar erro de requisição
+      console.error('Erro ao enviar dados:', error);
     }
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -35,8 +38,8 @@ const LoginPage = ({ navigation }) => {
       <View style={styles.formContainer}>
         <FormInput
           placeholder="Email ou CPF"
-          value={emailCpf}
-          onChangeText={setEmailCpf}
+          value={emailOrCpf}
+          onChangeText={setEmailOrCpf}
         />
         <FormInput
           placeholder="Senha"
