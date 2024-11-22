@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from '../styles/ProfileScreenStyles';
 
 export default function ProfileScreen({ navigation }) {
   const [userData, setUserData] = useState({
-    profilePicture: "",
     name: "Nome da Pessoa",
     email: "email@exemplo.com",
     cpf: "000.000.000-00",
@@ -36,13 +35,6 @@ export default function ProfileScreen({ navigation }) {
       </View>
 
       <View style={styles.profileContainer}>
-        <Image
-          source={{
-            uri: userData.profilePicture || "https://via.placeholder.com/150/000000/FFFFFF/?text=Foto+Padrão",
-          }}
-          style={styles.profilePicture}
-        />
-        
         <View style={styles.separator} />
 
         {isEditing ? (

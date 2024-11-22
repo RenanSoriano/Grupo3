@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -17,6 +18,8 @@ const TaskScreen = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [editingText, setEditingText] = useState('');
   const [editingDate, setEditingDate] = useState(new Date());
+
+  const navigation = useNavigation();
 
   const handleAddTask = () => {
     if (taskText.trim()) {
@@ -89,7 +92,16 @@ const TaskScreen = () => {
 
   return (
     <View style={taskStyles.container}>
-      <Text style={taskStyles.title}>Tarefas</Text>
+      <View style={taskStyles.header}>
+        <TouchableOpacity
+          style={taskStyles.profileBox}
+          onPress={() => navigation.navigate('ProfilePage')}
+        >
+          <Text style={taskStyles.profileText}>Perfil</Text>
+        </TouchableOpacity>
+        <Text style={taskStyles.title}>Tarefas</Text>
+        <View style={taskStyles.placeholder} />
+      </View>
       
       <TextInput
         style={formStyles.input}

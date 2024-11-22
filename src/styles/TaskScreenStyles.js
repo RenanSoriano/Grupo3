@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4B9EFF',
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Espaço entre os itens
+    alignItems: 'center', // Alinhar itens verticalmente
+    marginBottom: 16,
+    paddingHorizontal: 16, // Espaçamento lateral
+  },
   task: {
     fontSize: 18,
     padding: 10,
@@ -71,6 +78,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+    profileBox: {
+      padding: 8,
+      backgroundColor: '#ddd',
+      borderRadius: 8,
+    },
+    profileText: {
+      fontSize: 16,
+      color: '#333',
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#000',
+      textAlign: 'center',
+      flex: 1,
+    },
+    placeholder: {
+      width: 64, // Mesmo tamanho que o botão "Perfil"
+    },
 });
 
 export default styles;

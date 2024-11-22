@@ -7,14 +7,13 @@ import api from '../../api'; // Importe a instância da API
 const LoginPage = ({ navigation }) => {
   const [emailOrCpf, setEmailOrCpf] = React.useState('');
   const [password, setPassword] = React.useState('');
-}
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const Data = {emailOrCpf, password};
+    const data = {emailOrCpf, password};
     try {
-      const response = await api.post('/signin', Data);
-  
+      const response = await api.post('/signin', data);
+
       if (response.status === 200) {
         // Sucesso no envio dos dados
         console.log('Dados enviados com sucesso:', response.data);
@@ -29,8 +28,8 @@ const LoginPage = ({ navigation }) => {
       console.error('Erro ao enviar dados:', error);
     }
   };
-  
-  
+
+
 
   return (
     <View style={styles.container}>
