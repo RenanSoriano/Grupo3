@@ -22,7 +22,7 @@ const SignupForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { name, email, cpf, birthDate, password} = formData;
-    const dataToSend = { name, email, cpf, password };
+    const dataToSend = { name, email, cpf, password, birthDate };
     try {
       const response = await api.post('/signup', dataToSend);
       if (response.status === 200) {
