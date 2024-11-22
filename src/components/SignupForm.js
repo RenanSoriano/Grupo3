@@ -1,33 +1,35 @@
 // src/components/SignupForm.js
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from '../styles/SignupScreenStyles';
 import axios from 'axios';
 import api from '../../api'; // Importe a instância da API
 
+const SignupForm = () => {
 
-const SignupForm = ({ navigation }) => {
+  const navigation = useNavigation();
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     cpf: '',
     birthDate: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
+    
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { name, email, cpf, birthDate, password, confirmPassword } = formData;
-    const dataToSend = { name, email, cpf, password };
+    const { name, email, cpf, birthDate, password} = formData;
+    const dataToSend = { name, email, cpf, password, birthDate };
     try {
       const response = await api.post('/signup', dataToSend);
       if (response.status === 200) {
         // Sucesso no envio dos dados
         console.log('Dados enviados com sucesso:', response.data);
         // Navegar para outra tela ou mostrar uma mensagem de sucesso
-        navigation.navigate('SuccessScreen');
+        navigation.navigate('LoginPage');
       } else {
         // Tratar erro de resposta
         console.error('Erro ao enviar dados:', response.status, response.data);
@@ -72,11 +74,6 @@ const SignupForm = ({ navigation }) => {
     if (formatted.length <= 10) {
       setFormData({ ...formData, birthDate: formatted });
     }
-  };
-
-  const handleRegister = () => {
-    // Add validation logic here before navigation
-    navigation.navigate('LoginScreen');
   };
 
   return (
@@ -132,18 +129,10 @@ const SignupForm = ({ navigation }) => {
             placeholderTextColor="#718096"
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Confirmar Senha"
-            value={formData.confirmPassword}
-            onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
-            secureTextEntry
-            placeholderTextColor="#718096"
-          />
+          
 
           <TouchableOpacity 
             style={styles.registerButton}
-            // onPress={handleRegister}
             onPress={handleSubmit}
           >
             <Text style={styles.buttonText}>Registrar</Text>

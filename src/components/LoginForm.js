@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import FormInput from './FormInput';
 import styles from '../styles/LoginPageStyles';
+import api from '../../api'; // Importe a instância da API
 
 const LoginForm = ({ navigation }) => {
   const [emailCpf, setEmailCpf] = React.useState('');

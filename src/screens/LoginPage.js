@@ -1,16 +1,35 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
 import styles from '../styles/LoginPageStyles';
+import api from '../../api'; // Importe a instância da API
 
 const LoginPage = ({ navigation }) => {
-  const [emailCpf, setEmailCpf] = React.useState('');
+  const [emailOrCpf, setEmailOrCpf] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const handleLogin = () => {
-    // Login logic here
-    navigation.navigate('TaskScreen');
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const Data = {emailOrCpf, password};
+    try {
+      const response = await api.post('/signin', Data);
+  
+      if (response.status === 200) {
+        // Sucesso no envio dos dados
+        console.log('Dados enviados com sucesso:', response.data);
+        // Navegar para outra tela ou mostrar uma mensagem de sucesso
+        navigation.navigate('TaskScreen');
+      } else {
+        // Tratar erro de resposta
+        console.error('Erro ao enviar dados:', response.status, response.data);
+      }
+    } catch (error) {
+      // Tratar erro de requisição
+      console.error('Erro ao enviar dados:', error);
+    }
   };
+  
+  
 
   return (
     <View style={styles.container}>
@@ -19,8 +38,8 @@ const LoginPage = ({ navigation }) => {
       <View style={styles.formContainer}>
         <FormInput
           placeholder="Email ou CPF"
-          value={emailCpf}
-          onChangeText={setEmailCpf}
+          value={emailOrCpf}
+          onChangeText={setEmailOrCpf}
         />
         <FormInput
           placeholder="Senha"
