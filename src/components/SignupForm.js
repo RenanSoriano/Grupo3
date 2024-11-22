@@ -2,16 +2,41 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styles from '../styles/SignupScreenStyles';
+import axios from 'axios';
+import api from '../../api'; // Importe a instância da API
+
 
 const SignupForm = ({ navigation }) => {
+
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     cpf: '',
     birthDate: '',
     password: '',
     confirmPassword: ''
   });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { name, email, cpf, birthDate, password, confirmPassword } = formData;
+    const dataToSend = { name, email, cpf, password };
+    try {
+      const response = await api.post('/signup', dataToSend);
+      if (response.status === 200) {
+        // Sucesso no envio dos dados
+        console.log('Dados enviados com sucesso:', response.data);
+        // Navegar para outra tela ou mostrar uma mensagem de sucesso
+        navigation.navigate('SuccessScreen');
+      } else {
+        // Tratar erro de resposta
+        console.error('Erro ao enviar dados:', response.status, response.data);
+      }
+    } catch (error) {
+      // Tratar erro de requisição
+      console.error('Erro ao enviar dados:', error);
+    }
+  };
 
   const handleCpfChange = (text) => {
     const numbers = text.replace(/[^\d]/g, '');
@@ -63,8 +88,8 @@ const SignupForm = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Nome Completo"
-            value={formData.fullName}
-            onChangeText={(text) => setFormData({ ...formData, fullName: text })}
+            value={formData.name}
+            onChangeText={(text) => setFormData({ ...formData, name: text })}
             placeholderTextColor="#718096"
           />
 
@@ -118,7 +143,8 @@ const SignupForm = ({ navigation }) => {
 
           <TouchableOpacity 
             style={styles.registerButton}
-            onPress={handleRegister}
+            // onPress={handleRegister}
+            onPress={handleSubmit}
           >
             <Text style={styles.buttonText}>Registrar</Text>
           </TouchableOpacity>
